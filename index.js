@@ -1,6 +1,6 @@
 // Imports
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-import {getDatabase, ref, push, onValue } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
+import {getDatabase, ref, push, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
  // Your web app's Firebase configuration
  const firebaseConfig = {
@@ -17,27 +17,58 @@ import {getDatabase, ref, push, onValue } from 'https://www.gstatic.com/firebase
  const app = initializeApp(firebaseConfig);
 //  Initialize DB
  const database = getDatabase(app);
+ const dbName = "shoppingList";
 // Initialize ProductsInDB
-const shoppingListInDB = ref(database, 'shoppingList');
+const shoppingListInDB = ref(database, dbName);
 
 const formEl = document.getElementById('form-el'),
 inputEl = document.getElementById('input-el'),
-ulEl = document.getElementById('ul-el');
+shoppingListEl = document.getElementById('shoppingListEl');
 
 onValue(shoppingListInDB, (snapshot) => {
-  let itemsArray = [];
-  snapshot.forEach((item) => {
-    itemsArray.push(item.val());
-  });
-  renderList(itemsArray);
-});
+  if (snapshot.exists()) {
+    let itemsArray = Object.entries(snapshot.val());
+    clearShoppingListHtml();
 
-function renderList(items) {
-  let listItems = '';
-  items.forEach((item) => {
-    listItems += `<li>${item}</li>`;
+    for (let index=0; index<itemsArray.length; index++) {
+      let currentItem = itemsArray[index],
+      currentItemID = currentItem[0],
+      currentItemValue = currentItem[1];
+
+      appendItemToShoppingList(currentItem);
+    }
+  } else {
+    console.log('No data available');
+    let noItemsEl = document.createElement('li');
+    noItemsEl.classList = 'noItems';
+    noItemsEl.textContent = 'No items in your shopping list, add some!';
+    shoppingListEl.innerHTML = '';
+    shoppingListEl.append(noItemsEl);
+  }
+})
+
+function appendItemToShoppingList(item) {
+  let itemID = item[0],
+  itemValue = item[1];
+
+  let newListEl = document.createElement('li');
+  newListEl.textContent = itemValue;
+  newListEl.id = itemID;
+
+  newListEl.addEventListener('click', () => {
+    let itemLocationInDB = ref(database, `${dbName}/${itemID}`);
+    remove(itemLocationInDB);
   });
-  ulEl.innerHTML = listItems;
+
+  shoppingListEl.append(newListEl);
+}
+
+function clearShoppingListHtml() {
+  shoppingListEl.innerHTML = '';
+}
+
+function clearInputField() {
+  inputEl.value = '';
 }
 
 // Event Listeners
@@ -54,5 +85,5 @@ function handleForm() {
   }
 
   push(shoppingListInDB, item);
-  inputEl.value = '';
+  clearInputField();
 }

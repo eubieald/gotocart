@@ -1,6 +1,11 @@
 body {
   margin: 0;
   padding: 0;
+  user-select: none;
+}
+
+button {
+  cursor: pointer;
 }
 
 .wrapper {
@@ -52,6 +57,10 @@ body {
   background-color: lavenderblush
 }
 
+.input-el:focus {
+  outline-color: tomato;
+}
+
 .input-el::placeholder {
   color: lightpink;
 }
@@ -60,4 +69,46 @@ body {
   color: hotpink;
   background-color: black;
   border: 1px solid mediumspringgreen;
+}
+
+.gotocart-btn:hover {
+  background-color: hotpink;
+  color: lavenderblush;
+}
+
+.shoppingListEl {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+li {
+  list-style: none;
+  padding: 15px 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: capitalize;
+  color: mintcream;
+  background-color: lightcoral;
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: pink;
+}
+
+li.noItems {
+  border: none;
+  color: orangered;
+  background-color: transparent;
+  text-shadow: 1px 1px 1px khaki;
+  font-size: 16px;
+  text-align: center;
+  text-transform: lowercase;
+  cursor: default;
 }
