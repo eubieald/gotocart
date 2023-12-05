@@ -53,7 +53,7 @@ button {
 
 .input-el {
   text-align: center;
-  color: hotpink;
+  color: tomato;
   background-color: lavenderblush
 }
 
@@ -66,13 +66,13 @@ button {
 }
 
 .gotocart-btn {
-  color: hotpink;
+  color: lightcoral;
   background-color: black;
   border: 1px solid mediumspringgreen;
 }
 
 .gotocart-btn:hover {
-  background-color: hotpink;
+  background-color: tomato;
   color: lavenderblush;
 }
 
