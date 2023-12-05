@@ -20,7 +20,8 @@ button {
 }
 
 .main-content {
-  width: 500px;
+  width: auto;
+  max-width: 500px;
   margin: 0 auto;
   border: 5px solid black;
   border-radius: 10px;
@@ -108,7 +109,8 @@ li.noItems {
   background-color: transparent;
   text-shadow: 1px 1px 1px khaki;
   font-size: 16px;
-  text-align: center;
+  text-align: left;
   text-transform: lowercase;
   cursor: default;
+  padding: 0;
 }
